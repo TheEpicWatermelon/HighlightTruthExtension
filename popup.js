@@ -1,4 +1,4 @@
-let getText = document.getElementById('getText');
+let getText = document.getElementById('button-2');
 let resultText = document.getElementById('resultText');
 
 getText.onclick = async function(element) {
