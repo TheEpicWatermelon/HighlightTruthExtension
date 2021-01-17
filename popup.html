@@ -7,17 +7,26 @@
         width: 100px;
         outline: none;
       }
-      text {
-          height: 40px;
-          width: 50px;
-          color: black;
+
+      #resultText {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
       }
     </style>
   </head>
   <body>
     <button id="getText">Click to verify information!</button>
     <div class="main">
-        <text id="resultText"></text>
+        <h3 id="resultText"></h3>
     </div>
     <script src="popup.js"></script>
   </body>

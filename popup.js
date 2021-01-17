@@ -1,8 +1,10 @@
 let getText = document.getElementById('getText');
 let resultText = document.getElementById('resultText');
 
-getText.onclick = function(element) {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+getText.onclick = async function(element) {
+    var textMsg = "asdsa";
+    resultText.innerHTML = "Searching..."
+    await chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
       chrome.tabs.executeScript({
         code: "window.getSelection().toString();"
       }, async function(selection) {
@@ -17,24 +19,29 @@ getText.onclick = function(element) {
             xhr.open("POST", "https://fake-news-htn.herokuapp.com/postText", false);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xhr.send(JSON.stringify(temp));
-            var msg = await xhr.response;
+            let msg = await JSON.parse(xhr.response);
+            console.log(msg.value);
             console.log(msg);
-            var res = msg.value;
-            if (res == 0) {
-                resultText.innerHTML= "This is 0";
-            } else if (res == 1) {
-                resultText.innerHTML= "This is 1";
-            } else if (res == 2) {
-                resultText.innerHTML= "This is 2";
-            } else if (res == 3) {
-                resultText.innerHTML= "This is 3";
-            } else if (res == 4) {
-                resultText.innerHTML= "This is 4";
+            if (msg.value == 0) {
+                textMsg = "This is Very Likely False";
+            } else if (msg.value == 1) {
+                textMsg = "This is Likely False";
+            } else if (msg.value == 2) {
+                textMsg = "This claim is Disputed";
+            } else if (msg.value == 3) {
+                textMsg = "This is Likely True";
+            } else if (msg.value == 4) {
+                textMsg = "This is Very Likely True";
+            } else {
+                textMsg = msg.value;
             }
 
             //var msg = await fetch('https://fake-news-htn.herokuapp.com/postText').then(r => r.text()).then(result => {})
             //console.log(msg);
+
+            resultText.innerHTML = textMsg;
         } catch (err) {
+            msg = "Error - Please Try Again";
             console.log(err);
         }
       });
